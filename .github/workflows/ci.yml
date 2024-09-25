@@ -40,7 +40,10 @@ jobs:
           poetry run pytest ./test/
 
       - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v4
+        uses: dorny/test-reporter@v1
         if: failure()
         with:
-          report_paths: 'pytest_report.xml'
+          name: 'Test Report'
+          path: 'pytest_report.xml'
+          reporter: 'java-junit'
+          fail-on-error: false
