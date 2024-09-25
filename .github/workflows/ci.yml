@@ -17,6 +17,9 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Move to python workspace
+        run: cd src
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
