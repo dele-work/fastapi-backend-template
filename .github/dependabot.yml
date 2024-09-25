@@ -7,7 +7,7 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "pip"
-    directory: "./src"
+    directory: "/src"
     schedule:
       interval: "weekly"
 
