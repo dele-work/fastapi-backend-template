@@ -36,14 +36,19 @@ jobs:
         run: |
           poetry run uvicorn app:app --host 0.0.0.0 --port 8000 &
 
-      - name: Run tests and Publish Test Report
+      - name: Run tests
         working-directory: ./src
         env:
           BACKEND_CORS_ORIGINS: '["*"]'
         run: |
           sleep 5  # Wait a bit for the server to be fully up and running
-          poetry run pytest ./test/ --junitxml=./logs/pytest_report.xml || true
-          echo "Publishing Test Report"
-          curl -sSL https://github.com/dorny/test-reporter/releases/latest/download/test-reporter-linux -o test-reporter
-          chmod +x test-reporter
-          ./test-reporter -n 'Test Report' -p './logs/pytest_report.xml' -r 'java-junit' || true
+          poetry run pytest ./test/ --junitxml=./logs/pytest_report.xml
+
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: failure()
+        with:
+          name: 'Test Report'
+          path: './src/logs/pytest_report.xml'
+          reporter: 'java-junit'
+          fail-on-error: false
