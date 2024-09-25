@@ -31,10 +31,15 @@ jobs:
           pip install poetry
           poetry install
 
+      - name: Start FastAPI
+        working-directory: ./src
+        run: |
+          poetry run uvicorn app:app --host 0.0.0.0 --port 8000 &
+
       - name: Run tests and Publish Test Report
         working-directory: ./src
         env:
-          BACKEND_CORS_ORIGINS: '["http://localhost","https://example.com"]'
+          BACKEND_CORS_ORIGINS: '["*"]'
         run: |
           sleep 5  # Wait a bit for the server to be fully up and running
           poetry run pytest ./test/ --junitxml=./logs/pytest_report.xml || true
