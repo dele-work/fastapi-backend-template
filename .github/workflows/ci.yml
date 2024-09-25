@@ -26,12 +26,25 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Run tests (inside Docker)
+      - name: Start FastAPI
         working-directory: ./src
-        run: pytest ./test/ --junitxml=/pytest_report.xml
+        run: |
+          poetry run uvicorn app:app --host 0.0.0.0 --port 8000 &
+
+      - name: Run tests
+        working-directory: ./src
+        run: |
+          sleep 5  # Wait a bit for the server to be fully up and running
+          poetry run pytest ./test/
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v4
         if: failure()
         with:
-          report_paths: '/pytest_report.xml'
+          report_paths: 'pytest_report.xml'
+
+      - name: Shutdown FastAPI
+        if: always()
+        working-directory: ./src
+        run: |
+          curl -X POST http://localhost:8000/shutdown
