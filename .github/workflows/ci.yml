@@ -44,9 +44,3 @@ jobs:
         if: failure()
         with:
           report_paths: 'pytest_report.xml'
-
-      - name: Shutdown FastAPI
-        if: always()
-        working-directory: ./src
-        run: |
-          curl -X POST http://localhost:8000/shutdown
