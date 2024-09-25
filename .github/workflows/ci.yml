@@ -26,50 +26,12 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Set up Docker Compose
-        working-directory: ./src
-        run: docker-compose up -d
-
       - name: Run tests (inside Docker)
         working-directory: ./src
-        run: |
-          docker-compose exec fastapi_server pytest /code/test/ --junitxml=/code/pytest_report.xml
-          docker cp ${CONTAINER_ID}:/code/pytest_report.xml pytest_report.xml
+        run: pytest ./test/ --junitxml=/pytest_report.xml
 
-      - name: Install Node.js and xml2js
-        uses: actions/setup-node@v3
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: failure()
         with:
-          node-version: '16'
-
-      - name: Install xml2js
-        working-directory: ./src
-        run: npm install xml2js
-
-      - name: Report test results
-        working-directory: ./src
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const xml2js = require('xml2js');
-            const core = require('@actions/core');
-            const parser = new xml2js.Parser();
-            const xml = fs.readFileSync('pytest_report.xml', 'utf8');
-            parser.parseString(xml, (err, result) => {
-              if (err) {
-                core.setFailed('Failed to parse XML');
-                return;
-              }
-              const failures = result.testsuite.testcase.filter(tc => tc.failure);
-              let commentBody = '## :x: Tests failed\n';
-              failures.forEach(tc => {
-                commentBody += `### ${tc.$.classname}::${tc.$.name}\n`;
-                commentBody += `\`\`\`\n${tc.failure[0]._}\n\`\`\`\n`;
-              });
-              github.rest.issues.createComment({
-                issue_number: context.payload.pull_request.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: commentBody
-              });
-            });
+          report_paths: '/pytest_report.xml'
