@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.584" timestamp="2024-09-25T12:29:57.738866+00:00" hostname="7f2848394f11"><testcase classname="test.unit.test_example" name="test_root_endpoint" time="0.040" /></testsuite></testsuites>
