@@ -9,6 +9,8 @@ permissions:
 
 jobs:
   build:
+    permissions:
+      pull-requests: write
     runs-on: ubuntu-latest
 
     steps:
@@ -47,4 +49,3 @@ jobs:
           path: './src/logs/pytest_report.xml'
           reporter: 'java-junit'
           fail-on-error: false
-          
