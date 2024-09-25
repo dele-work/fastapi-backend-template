@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        run: |
+          docker-compose up -d
+
+      - name: Run tests (inside Docker)
+        run: |
+          docker-compose exec fastapi_server pytest /code/test/ --junitxml=/code/pytest_report.xml
+
+      - name: Install Node.js and xml2js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install xml2js
+        run: |
+          npm install xml2js
+
+      - name: Report test results
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const xml2js = require('xml2js');
+            const core = require('@actions/core');
+            const parser = new xml2js.Parser();
+            const xml = fs.readFileSync('src/pytest_report.xml', 'utf8');
+            parser.parseString(xml, (err, result) => {
+              if (err) {
+                core.setFailed('Failed to parse XML');
+                return;
+              }
+              const failures = result.testsuite.testcase.filter(tc => tc.failure);
+              let commentBody = '## :x: Tests failed\n';
+              failures.forEach(tc => {
+                commentBody += `### ${tc.$.classname}::${tc.$.name}\n`;
+                commentBody += `\`\`\`\n${tc.failure[0]._}\n\`\`\`\n`;
+              });
+              github.rest.issues.createComment({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentBody
+              });
+            });
