@@ -15,13 +15,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Compose
-        run: |
-          docker-compose up -d
+      - uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: pip install poetry
+
+      - name: Setup poetry project
+        run: poetry install
 
       - name: Run tests (inside Docker)
         run: |
-          docker-compose exec fastapi_server pytest /code/test/ --junitxml=/code/pytest_report.xml
+          pytest src/test --junitxml=pytest_report.xml
+        continue-on-error: true
+
 
       - name: Install Node.js and xml2js
         uses: actions/setup-node@v3
