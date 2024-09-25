@@ -44,9 +44,6 @@ jobs:
           sleep 5  # Wait a bit for the server to be fully up and running
           poetry run pytest ./test/ --junitxml=./logs/pytest_report.xml || true
           echo "Publishing Test Report"
-        uses: dorny/test-reporter@v1
-        with:
-          name: 'Test Report'
-          path: './src/logs/pytest_report.xml'
-          reporter: 'java-junit'
-          fail-on-error: false
+          curl -sSL https://github.com/dorny/test-reporter/releases/latest/download/test-reporter-linux -o test-reporter
+          chmod +x test-reporter
+          ./test-reporter -n 'Test Report' -p './logs/pytest_report.xml' -r 'java-junit' || true
