@@ -1,4 +1,4 @@
-# FastAPI template PJ
+# FastAPI Template PJ
 
 ## Getting Started
 
