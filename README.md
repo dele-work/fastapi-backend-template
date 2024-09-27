@@ -36,7 +36,9 @@ make run-app
 
 Open [http://localhost:8000/docs](http://localhost:8000/docs) with your browser to see the result.
 
-You can start editing the server by modifying `app/main.py`.
+By default, the server uses port 8000. However, if this port is already in use, the server will automatically increment and select the next available port, ensuring the application remains accessible.
+
+You can start editing the server by modifying `src/app/main.py`.
 
 - [fastapi-alembic-sqlmodel-async](https://github.com/jonra1993/fastapi-alembic-sqlmodel-async).
 - [full-stack-fastapi-postgresql](https://github.com/tiangolo/full-stack-fastapi-postgresql).

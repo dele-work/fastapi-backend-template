@@ -17,39 +17,37 @@ help:
 	@echo "    run-prod"
 	@echo "        Run production docker compose."
 	@echo "    stop-prod"
-	@echo "        Run production docker compose."	
+	@echo "        Run production docker compose."
 	@echo "    formatter"
 	@echo "        Apply black formatting to code."
 	@echo "    mypy"
-	@echo "        Check typing."		
+	@echo "        Check typing."
 	@echo "    lint"
 	@echo "        Lint code with ruff, and check if black formatter should be applied."
 	@echo "    lint-watch"
 	@echo "        Lint code with ruff in watch mode."
 	@echo "    lint-fix"
-	@echo "        Lint code with ruff and try to fix."	
-	
+	@echo "        Lint code with ruff and try to fix."
+
 install:
 	cd src && poetry install && cd ../..
 
 run-app:
 	cd src && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 && cd ..
 
-
 run-dev-build:
-	docker compose -f docker-compose-dev.yml up --build
+	$(MAKE) find-port
+	docker-compose up --build
 
 run-dev:
-	docker compose -f docker-compose-dev.yml up
+	$(MAKE) find-port
+	docker-compose up
 
 stop-dev:
-	docker compose -f docker-compose-dev.yml down
-
-run-prod:
-	docker compose up --build
+	docker-compose down
 
 stop-prod:
-	docker compose down
+	docker-compose down
 
 formatter:
 	cd src && \
@@ -70,3 +68,12 @@ lint-watch:
 lint-fix:
 	cd src && \
 	poetry run ruff app --fix
+
+find-port:
+	@echo "Finding available port..."
+	@PORT=8000; \
+	while lsof -Pi :$$PORT -sTCP:LISTEN -t >/dev/null ; do \
+		PORT=$$((PORT+1)); \
+	done; \
+	echo "\033[0;32mUsing available port: $$PORT\033[0m"; \
+	sed -i.bak "s/8000:8000/$$PORT:8000/g" docker-compose.yml
