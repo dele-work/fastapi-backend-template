@@ -8,8 +8,8 @@ services:
     command: "sh -c 'uvicorn app.main:app --reload --workers 3 --host 0.0.0.0 --port 8000'"
     volumes:
       - ./src:/code
-    expose:
-      - 8000    
+    ports:
+      - "8001:8000"  # 正しくポートをマッピング
     env_file: ".env"
 
   caddy_reverse_proxy:
@@ -31,4 +31,3 @@ services:
 volumes:
   caddy_data:
   caddy_config:
-
