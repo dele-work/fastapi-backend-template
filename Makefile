@@ -37,17 +37,17 @@ run-app:
 
 run-dev-build:
 	$(MAKE) find-port
-	docker-compose up --build
+	docker compose up --build
 
 run-dev:
 	$(MAKE) find-port
-	docker-compose up
+	docker compose up
 
 stop-dev:
-	docker-compose down
+	docker compose down
 
 stop-prod:
-	docker-compose down
+	docker compose down
 
 formatter:
 	cd src && \
