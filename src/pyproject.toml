@@ -10,7 +10,7 @@ include = "app"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
-mypy = "^1.11.2"
+mypy = "^1.12.1"
 ruff = "^0.6.7"
 black = "^24.8.0"
 
