@@ -37,7 +37,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
-fastapi = {extras = ["all"], version = "^0.115.0"}
+fastapi = {extras = ["all"], version = "^0.115.4"}
 fastapi-pagination = {extras = ["sqlalchemy"], version = "^0.12.27"}
 asyncer = "^0.0.8"
 httpx = "^0.27.2"
