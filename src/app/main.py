@@ -6,6 +6,9 @@ from app.core.config import settings
 from contextlib import asynccontextmanager
 from starlette.middleware.cors import CORSMiddleware
 
+import logging.config
+from app.config.logging import setup_logging
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,7 +17,10 @@ async def lifespan(app: FastAPI):
     yield
     # shutdown
     print("shutdown fastapi")
-    
+
+
+setup_logging()
+logger = logging.getLogger(__name__)
 
 
 # Core Application Instance
@@ -34,6 +40,7 @@ if settings.BACKEND_CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
 
 @app.get("/")
 async def root():
