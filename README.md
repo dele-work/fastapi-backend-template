@@ -50,9 +50,11 @@ You can start editing the server by modifying `src/app/main.py`.
 
 ## 開発支援
 
-[株式会社dele](https://dele.work/)では公開・開発しているソースコードに関するご質問やご相談等にも乗っております。
+[株式会社dele](https://dele.work/)では「デジタルを多くの人の手元へ」というミッション実現のため、汎用的なソースコード等を[MITライセンス](./LICENSE)でPublicに公開しております。
 
-その他、デプロイや開発のご依頼も受け付けております。
+ぜひご活用ください。
+
+また、株式会社deleではデプロイや開発のご依頼も受け付けております。お気軽にお問合せください。
 
 [→ お問い合わせはこちらから](https://locrian-swift-4d7.notion.site/1360f28b29de801eb6b5f07f84fe40bb)
 
