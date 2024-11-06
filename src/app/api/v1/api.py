@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.api.v1.endpoints import (
-    weather,    
+    weather,
 )
 
 api_router = APIRouter()
