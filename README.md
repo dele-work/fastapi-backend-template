@@ -56,7 +56,8 @@ You can start editing the server by modifying `src/app/main.py`.
 
 また、株式会社deleではデプロイや開発のご依頼も受け付けております。お気軽にお問合せください。
 
-[→ お問い合わせはこちらから](https://locrian-swift-4d7.notion.site/1360f28b29de801eb6b5f07f84fe40bb)
+[→ お問い合わせはこちらから](https://dele.work/contact)
 
 
-[![deleシステム開発支援](https://github.com/user-attachments/assets/8adf14d6-7594-4e31-b9e5-36d61fa622ad)](https://dele-coltd.notion.site/1360f28b29de801eb6b5f07f84fe40bb)
+[![deleシステム開発支援](https://github.com/user-attachments/assets/8adf14d6-7594-4e31-b9e5-36d61fa622ad)](https://dele.work/contact)
+
