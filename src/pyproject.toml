@@ -12,7 +12,7 @@ include = "app"
 pytest = "^8.3.3"
 mypy = "^1.11.2"
 ruff = "^0.6.7"
-black = "^24.8.0"
+black = "^25.1.0"
 
 [tool.black]
 line-length = 88
