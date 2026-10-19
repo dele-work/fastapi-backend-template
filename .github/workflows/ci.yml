@@ -45,7 +45,7 @@ jobs:
           poetry run pytest ./test/ --junitxml=./logs/pytest_report.xml
 
       - name: Publish Test Report
-        uses: dorny/test-reporter@v1
+        uses: dorny/test-reporter@v3
         if: failure()
         with:
           name: 'Test Report'
